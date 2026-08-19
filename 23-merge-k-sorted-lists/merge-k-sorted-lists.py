@@ -1,26 +1,32 @@
-import heapq
-
 class Solution(object):
     def mergeKLists(self, lists):
-        heap = []
 
-        for i, node in enumerate(lists):
-            if node:
-                heapq.heappush(heap, (node.val, i, node))
+        def merge(a, b):
+            if not a:
+                return b
 
-        dummy = ListNode(0)
-        curr = dummy
+            if not b:
+                return a
 
-        while heap:
-            val, i, node = heapq.heappop(heap)
+            if a.val < b.val:
+                a.next = merge(a.next, b)
+                return a
+            else:
+                b.next = merge(a, b.next)
+                return b
 
-            curr.next = node
-            curr = curr.next
+        def solve(left, right):
+            if left == right:
+                return lists[left]
 
-            if node.next:
-                heapq.heappush(
-                    heap,
-                    (node.next.val, i, node.next)
-                )
+            mid = (left + right) // 2
 
-        return dummy.next
+            a = solve(left, mid)
+            b = solve(mid + 1, right)
+
+            return merge(a, b)
+
+        if not lists:
+            return None
+
+        return solve(0, len(lists) - 1)
