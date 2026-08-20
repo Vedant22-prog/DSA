@@ -1,22 +1,15 @@
 from collections import Counter
-
-class Solution:
+class Solution(object):
     def isNStraightHand(self, hand, groupSize):
         if len(hand) % groupSize != 0:
             return False
-
         count = Counter(hand)
-
-        for start in sorted(count.keys()):
-            if count[start] == 0:
+        hand.sort()
+        for card in hand:
+            if count[card] == 0:
                 continue
-
-            freq = count[start]
-
-            for card in range(start, start + groupSize):
-                if count[card] < freq:
+            for i in range(groupSize):
+                if count[card + i] == 0:
                     return False
-
-                count[card] -= freq
-
+                count[card + i] -= 1
         return True
