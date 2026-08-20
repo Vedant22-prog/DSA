@@ -7,16 +7,16 @@ class Solution:
 
         count = Counter(hand)
 
-        for card in sorted(count):
-            if count[card] == 0:
+        for start in sorted(count.keys()):
+            if count[start] == 0:
                 continue
 
-            freq = count[card]
+            freq = count[start]
 
-            for x in range(card, card + groupSize):
-                if count[x] < freq:
+            for card in range(start, start + groupSize):
+                if count[card] < freq:
                     return False
 
-                count[x] -= freq
+                count[card] -= freq
 
         return True
