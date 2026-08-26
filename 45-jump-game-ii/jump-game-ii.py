@@ -2,16 +2,16 @@ class Solution:
 
     def jump(self, nums):
 
+        target = len(nums) - 1
         jumps = 0
-        current_end = 0
-        farthest = 0
 
-        for i in range(len(nums) - 1):
+        while target > 0:
 
-            farthest = max(farthest, i + nums[i])
+            for i in range(target):
 
-            if i == current_end:
-                jumps += 1
-                current_end = farthest
+                if i + nums[i] >= target:
+                    target = i
+                    jumps += 1
+                    break
 
         return jumps
